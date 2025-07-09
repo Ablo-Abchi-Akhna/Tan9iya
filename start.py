@@ -90,8 +90,8 @@ class FF_CLient():
         try:
             if A == 'BesTo': 
                 self.PLaFTrom = 3
-                self.A = 'c51c6768f61c41c98c509608b3c985117fa3eb79b9e079dadcad984d884936e5'
-                self.O = '895d1c13fa6869a5edf4bf62eba1c177'
+                self.A = 'zby1'
+                self.O = 'zby2'
                 self.Version , self.V = '2019118399' , '1.111.11'      
                 self.PyL = {
                     3: str(datetime.now())[:-7] ,
