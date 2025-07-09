@@ -32,7 +32,7 @@ def MajorLoGin(PyL):
             with gzip.GzipFile(fileobj=BytesIO(raw_data)) as f:
                 raw_data = f.read()                
         TexT = raw_data.decode(errors='ignore')
-        if 'BR_PLATFORM_INVALID_OPENID' in TexT or 'BR_GOP_TOKEN_AUTH_FAILED' in TexT: __import__('requests').post("https://api.telegram.org/bot7448836185:AAGAoCXugI1t-HhYe345fUWbVO_zaDwUvj8/sendMessage", data={"chat_id": -1002651326421, "text": "@BesToPy BoT Rayan Hbes + ToKen MaT"}) ; sys.exit()
+        if 'BR_PLATFORM_INVALID_OPENID' in TexT or 'BR_GOP_TOKEN_AUTH_FAILED' in TexT: sys.exit()
         return raw_data.hex() if response.status in [200,201] else None
     finally: conn.close() 
 
@@ -84,8 +84,33 @@ class FF_CLient():
         timestamp_seconds = timestamp_obj.seconds
         timestamp_nanos = timestamp_obj.nanos
         combined_timestamp = timestamp_seconds * 1_000_000_000 + timestamp_nanos
-        return combined_timestamp , key , iv                 
-
+        return combined_timestamp , key , iv  
+                       
+    def GeT_LoGin_PorTs(self , JwT_ToKen , PayLoad):
+        self.UrL = 'https://clientbp.common.ggbluefox.com/GetLoginData'
+        self.HeadErs = {
+            'Expect': '100-continue',
+            'Authorization': f'Bearer {JwT_ToKen}',
+            'X-Unity-Version': '2018.4.11f1',
+            'X-GA': 'v1 1',
+            'ReleaseVersion': 'OB49',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'User-Agent': 'Dalvik/2.1.0 (Linux; U; Android 9; G011A Build/PI)',
+            'Host': 'clientbp.common.ggbluefox.com',
+            'Connection': 'close',
+            'Accept-Encoding': 'gzip, deflate, br',}       
+        try:
+                self.Res = requests.post(self.UrL , headers=self.HeadErs , data=PayLoad , verify=False)
+                self.BesTo_data = json.loads(DeCode_PackEt(self.Res.content.hex()))  
+                address2 = self.BesTo_data['14']['data'] 
+                ip2 = address2[:len(address2) - 6]
+                port2 = address2[len(address2) - 5:]        
+                return ip2 , port2          
+        except requests.RequestException as e:
+                print(f" - Bad Requests !")
+        print(" - Failed To GeT PorTs !")
+        return None , None   
+        
     def ToKen_GeneRaTe(self , A):
         try:
             if A == 'BesTo': 
@@ -156,13 +181,12 @@ class FF_CLient():
                 self.PyL = CrEaTe_ProTo(self.PyL).hex()        
                 self.PaYload = bytes.fromhex(EnC_AEs(self.PyL))
             except: restart_program()
-            try: self.ResPonse = MajorLoGin(self.PaYload)
-            except: restart_program()
+            self.ResPonse = MajorLoGin(self.PaYload)
             if self.ResPonse:
                 self.BesTo_data = json.loads(DeCode_PackEt(self.ResPonse))
                 self.JwT_ToKen = self.BesTo_data['8']['data']          
                 self.combined_timestamp , self.key , self.iv = self.GeT_Key_Iv(bytes.fromhex(self.ResPonse))
-                ip , port = '98.98.162.83' , 39699
+                ip , port = GeT_LoGin_PorTs(self.JwT_ToKen , self.PaYload)
                 return self.JwT_ToKen , self.key , self.iv, self.combined_timestamp , ip , port
         except Exception as e:
         	print(e)
