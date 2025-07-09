@@ -89,7 +89,7 @@ class FF_CLient():
     def ToKen_GeneRaTe(self , A):
         try:
             if A == 'BesTo': 
-                self.PLaFTrom = 3
+                self.PLaFTrom = 'zby3'
                 self.A = 'zby1'
                 self.O = 'zby2'
                 self.Version , self.V = '2019118399' , '1.111.11'      
