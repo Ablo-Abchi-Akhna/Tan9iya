@@ -186,7 +186,7 @@ class FF_CLient():
                 self.BesTo_data = json.loads(DeCode_PackEt(self.ResPonse))
                 self.JwT_ToKen = self.BesTo_data['8']['data']          
                 self.combined_timestamp , self.key , self.iv = self.GeT_Key_Iv(bytes.fromhex(self.ResPonse))
-                ip , port = GeT_LoGin_PorTs(self.JwT_ToKen , self.PaYload)
+                ip , port = self.GeT_LoGin_PorTs(self.JwT_ToKen , self.PaYload)
                 return self.JwT_ToKen , self.key , self.iv, self.combined_timestamp , ip , port
         except Exception as e:
         	print(e)
